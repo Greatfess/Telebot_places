@@ -38,13 +38,14 @@ def create_messages_table():
     sql_create = """
             CREATE TABLE IF NOT EXISTS public.bot_messages
         (
-            id serial primary key not null,
+            id integer NOT NULL DEFAULT nextval('bot_messages_id_seq'::regclass),
             "user" bigint,
-            message text COLLATE pg_catalog."default"
-        )
-        TABLESPACE pg_default;
-        ALTER TABLE public.bot_messages
-            OWNER to postgres;"""
+            address text COLLATE pg_catalog."default",
+            photo bytea,
+            latitude double precision,
+            longitude double precision,
+            CONSTRAINT bot_messages_pkey PRIMARY KEY (id)
+        )"""
     execute_pgsql(sql_create)
 
 
