@@ -2,10 +2,12 @@ import psycopg2
 import telebot
 from settings import TOKEN, API_KEY
 from utilities import *
-
+from flask import Flask, request
+import os
 
 bot = telebot.TeleBot(TOKEN)
-    
+server = Flask(__name__)
+
 @bot.message_handler(commands=['list'])
 def handle_message0(message):
     keyboard = create_keyboard_2()
@@ -204,6 +206,23 @@ def handle_confirmation3(callback_query):
         print(e)
         update_state(message, START)
 
-if __name__ == "__main__":
-    create_messages_table()
-    bot.polling()
+@server.route('/' + TOKEN, methods=['POST'])
+def getMessage():
+    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+    return "!", 200
+
+@server.route("/")
+def webhook():
+    bot.remove_webhook()
+    bot.set_webhook(url='https://thawing-ridge-84409.herokuapp.com/' + TOKEN)
+    return "!", 200
+
+
+if __name__ == '__main__':
+    server.debug = True
+    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+
+
+#if __name__ == "__main__":
+#    create_messages_table()
+#    bot.polling()
