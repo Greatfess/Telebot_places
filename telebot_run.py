@@ -205,4 +205,5 @@ def handle_confirmation3(callback_query):
         update_state(message, START)
 
 if __name__ == "__main__":
+    create_messages_table()
     bot.polling()
