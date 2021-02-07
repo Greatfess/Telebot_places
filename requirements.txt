@@ -1,0 +1,6 @@
+json5==0.9.5
+jsonschema==3.2.0
+pandas==1.1.4
+requests==2.22.0
+psycopg2==2.8.6
+pyTelegramBotAPI==3.7.6
