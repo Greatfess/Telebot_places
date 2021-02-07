@@ -1,1 +1,1 @@
-worker: python telebot_run.py
+bot: python telebot_run.py
